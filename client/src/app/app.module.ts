@@ -5,18 +5,20 @@ import {HttpClientModule} from '@angular/common/http';    //add http client
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NavBarComponent } from './nav-bar/nav-bar.component';
+import { CoreModule } from './core/core.module';   //import navbar
+import { ShopModule } from './shop/shop.module';   //shop
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavBarComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    HttpClientModule
+    HttpClientModule,
+    CoreModule,
+    ShopModule
   ],
   providers: [],
   bootstrap: [AppComponent]
