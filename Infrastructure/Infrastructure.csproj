@@ -8,6 +8,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0"/>
     <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.11.1"/>
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.11.1"/>
+    <PackageReference Include="Stripe.net" Version="39.54.0"/>   <!-- use stripe-->
   </ItemGroup>
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>

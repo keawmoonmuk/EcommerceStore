@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AccountService } from '../account/account.service';
+import { BasketService } from '../basket/basket.service';
+import { IBasketTotals } from '../shared/models/basket';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-checkout',
@@ -8,14 +11,18 @@ import { AccountService } from '../account/account.service';
   styleUrls: ['./checkout.component.scss'],
 })
 export class CheckoutComponent implements OnInit {
-  checkoutForm!: FormGroup;
+  
+  basketTotals$: Observable<IBasketTotals>;
+  checkoutForm: FormGroup;
 
   //import account sevice
-  constructor(private fb: FormBuilder, private accountService: AccountService) {}
-
+  constructor(private fb: FormBuilder, private accountService: AccountService, private basketService: BasketService) { }
+  
   ngOnInit() {
     this.createCheckoutForm();
     this.getAddressFormValues();
+    this.getDeliveryMethodValue();
+    this.basketTotals$ = this.basketService.basketTotal$;
   }
 
   createCheckoutForm() {
@@ -29,23 +36,30 @@ export class CheckoutComponent implements OnInit {
         zipCode: [null,Validators.required],
       }),
       deliveryForm: this.fb.group({
-        deliveryMethod: [null,Validators.required]
+        deliveryMethod: [null, Validators.required]
       }),
       paymentForm: this.fb.group({
-        maneOnCard: [null,Validators.required]
+        nameOnCard: [null, Validators.required]
       })
     });
   }
 
   //get value in form address
-  getAddressFormValues(){
+  getAddressFormValues() {
     this.accountService.getUserAddress().subscribe(address => {
-      if(address){
-        this.checkoutForm.get('addressForm')!.patchValue(address);
+      if (address) {
+        this.checkoutForm.get('addressForm').patchValue(address);
       }
     }, error => {
       console.log(error);
     });
+  }
+
+  getDeliveryMethodValue() {
+    const basket = this.basketService.getCurrentBasketValue();
+    if (basket.deliveryMethodId !== null ) {
+      this.checkoutForm.get('deliveryForm').get('deliveryMethod').patchValue(basket?.deliveryMethodId?.toString());
+    }
   }
 
 }

@@ -12,13 +12,16 @@ namespace API.Extensions
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
-            services.AddScoped<ITokenService, TokenService>();             // add service token
-            services.AddScoped<IOrderService, OrderService>();  //add service order
-            services.AddScoped<IUnitOfWork, UnitOfWork>();  //add service uinit work
-            services.AddScoped<IProductRepository, ProductRepository>();  //add repository patten
+            services.AddSingleton<IResponseCacheService, ResponseCacheService>(); // add service cacheservice
+            services.AddScoped<ITokenService, TokenService>();              // add service token
+            services.AddScoped<IOrderService, OrderService>();              //add service order
+            services.AddScoped<IPaymentService, PaymentService>();          // add payment interface service and
+            services.AddScoped<IUnitOfWork, UnitOfWork>();                  //add service uinit work
+            services.AddScoped<IProductRepository, ProductRepository>();    //add repository patten
             services.AddScoped(typeof(IGenericRepository<>), (typeof(GenericRepository<>))); // add generic repo
-            services.AddScoped<IBasketRepository, BasketRepository>(); // add server interface basket and class basket
-                // add serivce  api error
+            services.AddScoped<IBasketRepository, BasketRepository>();      // add server interface basket and class basket
+            
+            // add serivce  api error
             services.Configure<ApiBehaviorOptions>(option => 
             {
                 option.InvalidModelStateResponseFactory = actionContext =>

@@ -8,7 +8,7 @@ import { BasketService } from './basket/basket.service';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  title = 'Store';
+  title = 'STORE';
 
   constructor(
     private basketService: BasketService,
@@ -24,7 +24,7 @@ export class AppComponent implements OnInit {
     const token = localStorage.getItem('token');
     // if (token) {
     this.accountService.loadCurrentUser(token!)!.subscribe(() => {
-      console.log('loaded user');
+      console.log('app loaded');
     }, error => {
       console.log(error);
     });

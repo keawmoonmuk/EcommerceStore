@@ -1,6 +1,6 @@
 import { Component, IterableDiffers, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { IBasket, IBasKetItem } from '../shared/models/basket';
+import { IBasket, IBasKetItem, IBasketTotals } from '../shared/models/basket';
 import { BasketService } from './basket.service';
 
 @Component({
@@ -10,12 +10,14 @@ import { BasketService } from './basket.service';
 })
 export class BasketComponent implements OnInit {
 
-  basket$! : Observable<IBasket>;
-
+  basket$ : Observable<IBasket>;
+  basketTotals$: Observable<IBasketTotals>;
+  
   constructor(private basketService: BasketService) { }
 
   ngOnInit() {
     this.basket$ = this.basketService.basket$;
+    this.basketTotals$ = this.basketService.basketTotal$;
   }
 
   //remove item
